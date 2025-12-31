@@ -42,7 +42,7 @@ The board performs the following primary functions:
 # BOM
 
 <img width="1518" height="663" alt="image" src="https://github.com/user-attachments/assets/40847a41-3dac-4544-8844-6afb28d1cca9" />
-# Total Cost: $404.72
+Total Cost: $404.72
 
 # Hardware Description
 
