@@ -1,124 +1,147 @@
-| Title | Author | Description | Created_at |
-|--------|----------------|------------------------------------------|------------|
-| HA818I | Kiya | A high-performance custom rocket with full avionics, airframe, and motor designed from scratch. | 2025-10-02 |
+# Rocket Flight Computer (Journal)
 
-# Dev Log "HA818I"
+## BOM Optimization & Documentation  
+**Week 3 (12/16/2025) – 8 Hours**
 
-**Total Time (Hours): 42 Hours**
+### Days Worked
+- **Monday:** 2 hours  
+- **Tuesday:** 1 hour  
+- **Wednesday:** 2 hours  
+- **Thursday:** 2 hours  
+- **Friday:** 1 hour  
 
----
+### BOM and Sourcing
+- Created the full BOM with all **LCSC part numbers** (via JLC).
+- Reduced cost by selecting **older resistor and capacitor versions** where possible.
+- Checked **availability** for all components.
+- Calculated **total cost**, including **PCB assembly**.
+<img width="1518" height="663" alt="image" src="https://github.com/user-attachments/assets/af562b38-bcc2-4e44-a1fe-80e0eb2bcd1f" />
 
-## Week 1 (10/02/2025) – 8 Hours  
+### Documentation
+- Generated **Gerbers**, **BOM**, **pick-and-place**, and all exportable fabrication files.
+- Created a spreadsheet mapping **ESP32 GPIO assignments**.
+- Documented **I²C addresses** and **pin usage** for each module.
+- Exported a **clean schematic PDF** with net labels for debugging.
+<img width="1869" height="604" alt="image" src="https://github.com/user-attachments/assets/3ae12cf6-a746-41bd-ac40-8ab939908031" />
 
-**Days worked on:**  
-Thursday – 2 hours<br>
-Friday – 1 hour<br>
-Saturday – 3 hours<br>
-Sunday – 2 hours  
+### Final Checks
+- Verified all **power rails** can handle required amperage.
+- Checked all **data connections** for correctness and interference.
+- Verified **MOSFET type** and **gate drive voltage** (N-channel).
+- Confirmed **FRAM** wiring.
+- Double-checked **LoRa** connections.
 
-- Started to plan the rocket
-- Created an open rocket simulation to predict how fast the rocket would go
-- Made sketches and a model (Very rough) to get an idea of what the rocket would look like 
-- Researched materials for motor (304 steel and 6061 aluminum)
-- Modeled nose cone and body tube in Fusion 360
+### Software
+- Selected **VS Code** and **Arduino IDE** for development.
+- Located and validated all required **libraries**.
+- Began researching **sensor fusion filters** (e.g., Kalman filter).
+- Researched **E22 LoRa module** operation and coding approach.
 
-**Open Rocket Simulation**
-<img width="1917" height="1037" alt="image" src="https://github.com/user-attachments/assets/3cc2f56d-c38b-4596-a34e-4fe9b2cf2af6" />
-**Body Tube**
-<img width="1511" height="897" alt="image" src="https://github.com/user-attachments/assets/f6803131-27e9-4f41-b6ac-8e7e35555158" />
-**Nose Cone**
-<img width="1507" height="977" alt="image" src="https://github.com/user-attachments/assets/a91634b8-e3ef-4782-9726-66f7fbfa438f" />
+## PCB Layout & Routing  
+**Week 2 (12/09/2025) – 10 Hours**
 
----
+### Days Worked
+- **Monday:** 2 hours  
+- **Tuesday:** 3 hours  
+- **Wednesday:** 2 hours  
+- **Thursday:** 2 hours  
+- **Friday:** 1 hour  
 
-## Week 2 (10/09/2025) – 10 Hours  
+### Power Block / System Layout
+- Researched **LM61495** and followed recommended placement.
+- Placed LM61495 near the **XT60 connector** on the right side.
+- Positioned **2.7 µH inductor** at the switching node; minimized loop area to reduce EMI.
+- Placed **five 22 µF input capacitors** close to VIN.
+- Calculated **trace widths** for a **2 A draw**.
+- Positioned **AP2114H** centrally for sensor access.
+<img width="203" height="485" alt="image" src="https://github.com/user-attachments/assets/aec10269-3b3a-45a4-979a-4e9a79d4eba7" />
 
-**Days worked on:**  
-Monday – 2 hours<br>
-Tuesday – 2 hours<br>
-Wednesday – 3 hours<br>
-Thursday – 2 hours<br>
-Friday – 1 hour  
+### Sensor Block / System Layout
+- Placed sensors close to the **ESP32**, prioritizing pin proximity.
+- Positioned **BMP390** near the board edge.
+- Aligned **both IMUs** to match the rocket’s coordinate system.
+- Kept the **magnetometer** at least **15 mm** from high-current paths.
+- Routed **I²C lines** as short as possible.
+- Added **100 nF decoupling capacitors**.
+<img width="113" height="145" alt="image" src="https://github.com/user-attachments/assets/141c6e4c-49a3-4e18-8476-33dc68a2979b" />
+<img width="224" height="346" alt="image" src="https://github.com/user-attachments/assets/d7257212-4761-4aa0-8645-5bc2c5a18049" />
 
-- Designed the finalized the motor size (38mm x 277mm, with 385N of thrust) 
-- Modeled grain holders  
-- Started designing 4-layer avionics PCB  
-- Designed fins based on the openrocket simulation and data  
-- Confirmed center of gravity and stability margin through simulations
+### MCU and Memory Block / System Layout
+- Placed **ESP32 module** bottom-left with **USB-C** on the edge.
+- Ensured **BOOT** and **RESET** buttons are accessible.
+- Routed **USB D+ / D−** as a differential pair.
+- Placed **FRAM** near the ESP32 to minimize SPI trace length.
+- Routed all **SPI signals**.
+<img width="171" height="211" alt="image" src="https://github.com/user-attachments/assets/82ed49a5-36f4-42fc-a656-0308ea331131" />
+<img width="450" height="736" alt="image" src="https://github.com/user-attachments/assets/ef1b4990-32b8-4a1e-87b9-1953fe950878" />
 
-**Full Motor Design**
-<img width="1513" height="899" alt="image" src="https://github.com/user-attachments/assets/76187186-b956-41a6-b797-59edf7cd36af" />
-**Motor Cross Section**
-<img width="1504" height="971" alt="image" src="https://github.com/user-attachments/assets/cdd22f91-3df7-423c-865b-20e4224f3c21" />
-**Propellant Case Mold**
-<img width="1520" height="970" alt="image" src="https://github.com/user-attachments/assets/0ab84a35-7681-4e43-9b88-b9381ef92c39" />
-**Fins**
-<img width="1509" height="896" alt="image" src="https://github.com/user-attachments/assets/1dd4c108-24bf-44b3-ad5a-326ab566a2cf" />
+### Communication Systems Layout
+- Placed **GPS module** top-right with antenna clearance.
+- Routed **GPS UART** away from the switching regulator.
+- Added **U.FL connector** on the edge.
+- Positioned **LoRa module** on the opposite side from GPS.
+<img width="331" height="366" alt="image" src="https://github.com/user-attachments/assets/98f94ffc-85a1-4b4a-84be-2ac4ee6d57b0" />
+<img width="495" height="830" alt="image" src="https://github.com/user-attachments/assets/00fcb739-5755-44a6-8145-3fc6c7213e49" />
 
----
+### Pyro Channels Layout
+- Placed **MOSFETs** near screw terminals at the bottom edge.
+- Used **wide traces** for pyro current paths.
+- Isolated the **pyro section** to reduce sensor interference.
+<img width="519" height="241" alt="image" src="https://github.com/user-attachments/assets/ec8dd438-2783-40d8-8b77-f79524b208a9" />
 
-## Week 3 (10/16/2025) – 9 Hours  
+### Full Layout
+<img width="441" height="855" alt="image" src="https://github.com/user-attachments/assets/694c95f1-e2eb-4545-9e9c-84d342a42308" />
 
-**Days worked on:**  
-Monday – 2 hours<br>
-Tuesday – 1 hour<br>
-Wednesday – 3 hours<br>
-Thursday – 2 hours<br>
-Friday – 1 hour  
+## Schematic Design & Component Selection  
+**Week 1 (12/02/2025) – 8 Hours**
 
-- Started and finished the schematic for the flight controller
-- Added two pyro channels for deployment
-- Designed the bulkheads of the rocket
-- Started PCB layout using the SGGS rule (EMI protection)
-  
-**PCB schematic**
-<img width="1233" height="843" alt="image" src="https://github.com/user-attachments/assets/4a7db2ce-d559-4490-9643-0a3b16853a8f" />
-**Motor retainers and bulkheads**
-<img width="1508" height="973" alt="image" src="https://github.com/user-attachments/assets/fcff1183-0cb3-4656-aec1-7175c9701096" />
-**Pyro Channels**
-<img width="943" height="512" alt="image" src="https://github.com/user-attachments/assets/a58469f0-be52-43c0-8c34-40c8ebb9a6bf" />
+### Days Worked
+- **Monday:** 2 hours  
+- **Tuesday:** 1 hour  
+- **Wednesday:** 2 hours  
+- **Thursday:** 2 hours  
+- **Friday:** 1 hour  
 
----
+### Power Block / System
+- Designed schematic for **LM61495 buck converter**.
+- Ensured regulator outputs support all sensors/modules/LoRa.
+- Selected **2.7 µH inductor (XAL7030-272MEC)** using TI’s calculator for **5 V** output (LoRa).
+- Added **input capacitors (22 µF ×5)** and **output capacitors (10 µF ×2)** per datasheet.
+- Added **AP2114H-3.3 LDO** for the **3.3 V sensor rail** (~1 A capacity).
+<img width="758" height="536" alt="image" src="https://github.com/user-attachments/assets/d008038a-93d5-4e0d-a233-f62685a573b0" />
 
-## Week 4 (10/23/2025) – 8 Hours  
+### Sensor Block / System
+- Selected sensors:
+  - **BMP390** barometer (altitude up to 30 km)
+  - **H3LIS331DLTR** high-G accelerometer (400 g)
+  - **IAM-20680HT** 6-axis IMU
+  - **LIS3MDLTR** magnetometer
+  - **AHT20** temperature sensor
+- Added **I²C bus** and **pull-up resistors**.
+<img width="378" height="204" alt="image" src="https://github.com/user-attachments/assets/46d29572-103a-4b0c-925b-eff1573f1816" />
+<img width="879" height="230" alt="image" src="https://github.com/user-attachments/assets/400005f7-84cd-47b4-bc9c-e7fad1e12297" />
+<img width="918" height="208" alt="image" src="https://github.com/user-attachments/assets/ddb38661-eee4-42e3-bb5b-ba639381bb33" />
 
-**Days worked on:**  
-Monday – 1 hour<br>
-Tuesday – 2 hours<br>
-Wednesday – 2 hours<br>
-Thursday – 1 hour<br>
-Friday – 2 hours  
-
-- Finished the PCB layout with optimization
-- Double-checked all wiring
-- Checked design rule, and everything looked good
-- Started to download libraries in preparation for the PCBs
-
-**PCB Layout**
-<img width="1610" height="870" alt="image" src="https://github.com/user-attachments/assets/1c84e516-0cba-4431-99c0-ab711a996f41" />
-
----
-
-## Week 5 (10/30/2025) – 7 Hours  
-
-**Days worked on:**  
-Monday – 1 hour<br>
-Tuesday – 2 hours<br>
-Wednesday – 1 hour<br>
-Thursday – 2 hours<br>
-Friday – 1 hour  
-
-- Designed avionics enclosure
-- Added 2s battery support
-- Researched composites and practiced with friends
-- Researched things needed for recovery
-- Optimized BOM 
-
-**Avionics Bay**
-<img width="1510" height="896" alt="image" src="https://github.com/user-attachments/assets/16709fbd-01fe-4436-b4db-55301165a039" />
-
-## Full Rocket Image!
-<img width="1915" height="866" alt="image" src="https://github.com/user-attachments/assets/6af56a06-12a7-41fe-96df-9b221def46c4" />
+### MCU and Memory Block / System
+- Selected **ESP32-S3-WROOM-1U** with BOOT/RESET.
+- Added **USB-C connector** with **ESD protection**.
+- Included programming buttons with **10 kΩ pull-ups**.
+- Added **FRAM (CY15B104Q-SXI, 4 Mbit)**.
+<img width="636" height="364" alt="image" src="https://github.com/user-attachments/assets/5d9b2411-9de6-49c2-99d2-b0d11b8b6e01" />
+<img width="1412" height="534" alt="image" src="https://github.com/user-attachments/assets/69fbb265-990c-4bcc-9d0a-2fd5f0c71328" />
 
 
----
+### Communication Systems (LoRa-based)
+- Added **MAX-M8Q GPS** with **U.FL connector** (external antenna).
+- Selected **E22-400T37S LoRa module** (high power consumption).
+- Integrated both into the schematic.
+<img width="523" height="392" alt="image" src="https://github.com/user-attachments/assets/2aeb2518-8bf0-4935-9631-dc1f80025124" />
+<img width="745" height="281" alt="image" src="https://github.com/user-attachments/assets/b62cf967-976b-4bce-a84b-12ccfa674b02" />
+
+### Pyro Channels (2x)
+- Designed **two MOSFET-driven pyro channels** using **SI7232DN (N-channel)**.
+- Added **screw terminals** for e-matches.
+<img width="937" height="491" alt="image" src="https://github.com/user-attachments/assets/b2fec560-c331-49b5-9c31-ddf37ffce766" />
+
+### Full Schematic
+<img width="1187" height="808" alt="image" src="https://github.com/user-attachments/assets/fa639e0f-8b6e-4926-ad64-530787102239" />
