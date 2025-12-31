@@ -1,4 +1,4 @@
-# Project Introduction
+# SkyTach MKII
 
 This project is a custom-designed rocket flight computer intended to track altitude, location, velocity, and other flight parameters. It integrates multiple sensors, a single microcontroller, and dual pyro channels to support high-power and experimental rocketry applications.
 
