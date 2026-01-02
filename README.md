@@ -72,3 +72,7 @@ The onboard software is not publicly released, as it could be reverse-engineered
 The PCB renderings show the completed flight computer design.
 
 ![Screenshot 2025-12-30 175227](https://github.com/user-attachments/assets/4b39e753-c889-49bb-a918-cf5e65749c01)
+
+# Schematic
+<img width="1187" height="808" alt="image" src="https://github.com/user-attachments/assets/2e6339ad-ee5d-4e88-9da7-57c9aa1f7a13" />
+
